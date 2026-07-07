@@ -1,0 +1,71 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Personal Expense Tracker</h1>
+                
+        <!-- Income Section -->
+        <div class="box">
+            <input type="number" id="income" placeholder="Enter Income">
+            <button onclick="addIncome()">Add Income</button>
+        </div>
+
+        <!-- Expense Section -->
+        <div class="box">
+
+            <h2>Enter Expense</h2>
+
+            <input type="text" id="expenseName" placeholder="Expense Name"><br><br>
+
+            <input type="number" id="expenseAmount" placeholder="Enter Expense Amount"><br><br>
+
+         <select id="category">
+              <option value="">Select Category</option>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Shopping</option>
+              <option>Bills</option>
+              <option>Entertainment</option>
+              <option>Medical</option>
+              <option>Education</option>
+              <option>Other</option>
+         </select>
+         <br><br>
+
+         <label>Date</label><br>
+         <input type="date" id="expenseDate"><br><br>
+
+         <button onclick="addExpense()">Add Expense</button>        </div>
+
+        <!-- Result Section -->
+        <div class="result">
+            <h3 id="totalIncome">Total Income: ₹0</h3>
+            <h3 id="totalExpense">Total Expense: ₹0</h3>
+            <h3 id="balance">Balance: ₹0</h3>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="history">
+            <h2>Transaction History</h2>
+            <ul id="list"></ul>
+        </div>
+        <button onclick="logout()" style="background:red; color:white; padding:8px 12px; border:none; border-radius:5px;">
+         Logout
+        </button>
+
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
