@@ -1,0 +1,121 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0;
+}
+
+/* Main container */
+.container {
+    width: 85%;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: #1f2d3d;
+    margin-bottom: 20px;
+}
+
+/* Logout button */
+button {
+    cursor: pointer;
+}
+
+/* Top grid layout */
+.box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Income + Expense inputs */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    outline: none;
+}
+
+/* Primary button */
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1e40af;
+}
+
+/* Logout special */
+button.logout {
+    background: #ef4444;
+    float: right;
+}
+
+button.logout:hover {
+    background: #b91c1c;
+}
+
+/* Dashboard cards */
+.result {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.result h3 {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Transaction box */
+.history {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* List styling */
+#list {
+    list-style: none;
+    padding: 0;
+}
+
+#list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Delete button */
+#list button {
+    background: #ef4444;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+#list button:hover {
+    background: #b91c1c;
+}
