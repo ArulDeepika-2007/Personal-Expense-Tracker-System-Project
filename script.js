@@ -1,72 +1,394 @@
-let totalIncome = 0;
-let totalExpense = 0;
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
-function addIncome() {
-    let income = document.getElementById("income").value;
 
-    if (income === "") return;
+const title = document.getElementById("title");
+const amount = document.getElementById("amount");
+const type = document.getElementById("type");
+const category = document.getElementById("category");
+const date = document.getElementById("date");
 
-    income = parseFloat(income);
-    totalIncome += income;
+const addBtn = document.getElementById("addBtn");
 
-    document.getElementById("totalIncome").innerText = "Total Income: ₹" + totalIncome;
+const transactionList = document.getElementById("transactionList");
 
-    updateBalance();
+const totalIncome = document.getElementById("totalIncome");
+const totalExpense = document.getElementById("totalExpense");
+const balance = document.getElementById("balance");
 
-    let li = document.createElement("li");
-    li.innerHTML = `Income: ₹${income} 
-        <button onclick="deleteTransaction(this, ${income}, 'income')">Delete</button>`;
+const search = document.getElementById("search");
+const filter = document.getElementById("filter");
 
-    document.getElementById("list").appendChild(li);
 
-    document.getElementById("income").value = "";
-}
 
-function addExpense() {
-    let name = document.getElementById("expenseName").value;
-    let amount = document.getElementById("expenseAmount").value;
-    let category = document.getElementById("category").value;
+/* Add Transaction */
 
-    if (name === "" || amount === "" || category === "") {
-        alert("Please fill all expense fields");
+addBtn.addEventListener("click",()=>{
+
+
+    if(title.value==="" || amount.value===""){
+
+        alert("Please enter transaction details");
         return;
+
     }
 
-    amount = parseFloat(amount);
-    totalExpense += amount;
 
-    document.getElementById("totalExpense").innerText = "Total Expense: ₹" + totalExpense;
 
-    updateBalance();
+    let transaction={
 
-    let li = document.createElement("li");
-    li.innerHTML = `${name} - ${category} - ₹${amount} 
-        <button onclick="deleteTransaction(this, ${amount}, 'expense')">Delete</button>`;
+        id:Date.now(),
 
-    document.getElementById("list").appendChild(li);
+        title:title.value,
 
-    document.getElementById("expenseName").value = "";
-    document.getElementById("expenseAmount").value = "";
-    document.getElementById("category").value = "";
-}
+        amount:Number(amount.value),
 
-function deleteTransaction(button, amount, type) {
-    let li = button.parentElement;
-    li.remove();
+        type:type.value,
 
-    if (type === "income") {
-        totalIncome -= amount;
-    } else {
-        totalExpense -= amount;
+        category:category.value,
+
+        date:date.value || new Date().toLocaleDateString()
+
+    };
+
+
+
+    transactions.push(transaction);
+
+
+    saveData();
+
+
+    displayTransactions();
+
+
+    updateSummary();
+
+
+    title.value="";
+    amount.value="";
+
+
+});
+
+
+
+
+
+
+/* Display Transactions */
+
+
+function displayTransactions(){
+
+
+    transactionList.innerHTML="";
+
+
+
+    let data=transactions;
+
+
+
+    if(search.value){
+
+        data=data.filter(item=>
+
+            item.title.toLowerCase()
+            .includes(search.value.toLowerCase())
+
+        );
+
     }
 
-    document.getElementById("totalIncome").innerText = "Total Income: ₹" + totalIncome;
-    document.getElementById("totalExpense").innerText = "Total Expense: ₹" + totalExpense;
 
-    updateBalance();
+
+
+    if(filter.value!="all"){
+
+        data=data.filter(item=>
+
+            item.category==filter.value
+
+        );
+
+    }
+
+
+
+
+
+    data.forEach(item=>{
+
+
+        let row=document.createElement("tr");
+
+
+
+        row.innerHTML=`
+
+        <td>${item.date}</td>
+
+        <td>${item.title}</td>
+
+        <td>${item.category}</td>
+
+        <td>${item.type}</td>
+
+
+        <td>
+
+        ₹${item.amount}
+
+        </td>
+
+
+        <td>
+
+        <button class="delete" onclick="deleteTransaction(${item.id})">
+
+        Delete
+
+        </button>
+
+        </td>
+
+
+        `;
+
+
+
+        transactionList.appendChild(row);
+
+
+
+    });
+
+
+
 }
 
-function updateBalance() {
-    let balance = totalIncome - totalExpense;
-    document.getElementById("balance").innerText = "Balance: ₹" + balance;
+
+
+
+
+
+/* Delete Transaction */
+
+
+function deleteTransaction(id){
+
+
+    transactions=
+
+    transactions.filter(item=>
+
+        item.id!==id
+
+    );
+
+
+    saveData();
+
+    displayTransactions();
+
+    updateSummary();
+
+
 }
+
+
+
+
+
+
+
+/* Update Dashboard */
+
+
+function updateSummary(){
+
+
+    let income=0;
+
+    let expense=0;
+
+
+
+    transactions.forEach(item=>{
+
+
+        if(item.type==="income"){
+
+            income+=item.amount;
+
+        }
+
+        else{
+
+            expense+=item.amount;
+
+        }
+
+
+    });
+
+
+
+    totalIncome.innerHTML="₹"+income;
+
+
+    totalExpense.innerHTML="₹"+expense;
+
+
+    balance.innerHTML="₹"+(income-expense);
+
+
+
+    updateChart(expense);
+
+}
+
+
+
+
+
+/* Local Storage */
+
+
+function saveData(){
+
+    localStorage.setItem(
+
+        "transactions",
+
+        JSON.stringify(transactions)
+
+    );
+
+}
+
+
+
+
+
+
+
+/* Search */
+
+
+search.addEventListener(
+
+"input",
+
+displayTransactions
+
+);
+
+
+
+filter.addEventListener(
+
+"change",
+
+displayTransactions
+
+);
+
+
+
+
+
+
+
+
+/* Dark Mode */
+
+
+document.getElementById("darkBtn")
+.onclick=function(){
+
+
+    document.body.classList.toggle("dark");
+
+
+};
+
+
+
+
+
+
+
+
+/* Chart */
+
+
+let chart;
+
+
+
+function updateChart(expense){
+
+
+
+    const ctx=document
+    .getElementById("expenseChart");
+
+
+
+    if(chart){
+
+        chart.destroy();
+
+    }
+
+
+
+
+    chart=new Chart(ctx,{
+
+
+        type:"doughnut",
+
+
+        data:{
+
+
+            labels:[
+
+                "Expense"
+
+            ],
+
+
+            datasets:[{
+
+
+                data:[expense || 1]
+
+
+            }]
+
+
+        }
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+/* Load Data */
+
+
+displayTransactions();
+
+updateSummary();
