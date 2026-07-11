@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - Personal Expense Tracker</title>
-    <link rel="stylesheet" href="style.css">
+
+<title>Login - ExpenseBank</title>
+
+<link rel="stylesheet" href="auth.css">
+
 </head>
 
 <body>
 
-    <div class="container">
 
-        <h1>User Login</h1>
+<div class="auth-box">
 
-        <form action="index.html">
+<h2>Login</h2>
 
-            <label>Email</label><br>
-            <input type="email" placeholder="Enter your email"><br><br>
 
-            <label>Password</label><br>
-            <input type="password" placeholder="Enter your password"><br><br>
+<input 
+type="email"
+id="loginEmail"
+placeholder="Enter Email">
 
-            <button type="submit">Login</button>
-         
-            <p>
-            Don't have an account?
-            <a href="register.html">Register here</a>
-            </p>
 
-        <form action="index.html">
+<input 
+type="password"
+id="loginPassword"
+placeholder="Enter Password">
 
-    </div>
+
+
+<button onclick="login()">
+Login
+</button>
+
+
+<p>
+Don't have an account?
+<a href="register.html">
+Register
+</a>
+</p>
+
+
+</div>
+
+
+
+<script src="auth.js"></script>
+
 
 </body>
 </html>
