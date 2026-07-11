@@ -1,71 +1,416 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Personal Expense Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker Dashboard</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Personal Expense Tracker</h1>
-                
-        <!-- Income Section -->
-        <div class="box">
-            <input type="number" id="income" placeholder="Enter Income">
-            <button onclick="addIncome()">Add Income</button>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fa-solid fa-building-columns"></i>
+            <h2>ExpenseBank</h2>
         </div>
 
-        <!-- Expense Section -->
-        <div class="box">
 
-            <h2>Enter Expense</h2>
+        <ul class="menu">
 
-            <input type="text" id="expenseName" placeholder="Expense Name"><br><br>
+            <li class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </li>
 
-            <input type="number" id="expenseAmount" placeholder="Enter Expense Amount"><br><br>
+            <li>
+                <i class="fa-solid fa-wallet"></i>
+                Income
+            </li>
 
-         <select id="category">
-              <option value="">Select Category</option>
-              <option>Food</option>
-              <option>Transport</option>
-              <option>Shopping</option>
-              <option>Bills</option>
-              <option>Entertainment</option>
-              <option>Medical</option>
-              <option>Education</option>
-              <option>Other</option>
-         </select>
-         <br><br>
+            <li>
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                Expense
+            </li>
 
-         <label>Date</label><br>
-         <input type="date" id="expenseDate"><br><br>
+            <li>
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                Reports
+            </li>
 
-         <button onclick="addExpense()">Add Expense</button>        </div>
+            <li>
+                <i class="fa-solid fa-calendar"></i>
+                Calendar
+            </li>
 
-        <!-- Result Section -->
-        <div class="result">
-            <h3 id="totalIncome">Total Income: ₹0</h3>
-            <h3 id="totalExpense">Total Expense: ₹0</h3>
-            <h3 id="balance">Balance: ₹0</h3>
-        </div>
+            <li id="darkBtn">
+                <i class="fa-solid fa-moon"></i>
+                Dark Mode
+            </li>
 
-        <!-- Transaction History -->
-        <div class="history">
-            <h2>Transaction History</h2>
-            <ul id="list"></ul>
-        </div>
-        <button onclick="logout()" style="background:red; color:white; padding:8px 12px; border:none; border-radius:5px;">
-         Logout
+        </ul>
+
+
+        <button class="logout" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
         </button>
 
+    </aside>
 
-    </div>
 
-    <script src="script.js"></script>
 
+
+    <!-- Main Content -->
+
+    <main class="main">
+
+
+        <header>
+
+            <h1>
+                Welcome Back 👋
+            </h1>
+
+            <div class="profile">
+
+                <i class="fa-solid fa-user-circle"></i>
+
+            </div>
+
+        </header>
+
+
+
+
+        <!-- Summary Cards -->
+
+        <section class="cards">
+
+
+            <div class="card income">
+
+                <div>
+                    <h3>Total Income</h3>
+                    <h2 id="totalIncome">
+                        ₹0
+                    </h2>
+                </div>
+
+                <i class="fa-solid fa-arrow-up"></i>
+
+            </div>
+
+
+
+            <div class="card expense">
+
+                <div>
+                    <h3>Total Expense</h3>
+                    <h2 id="totalExpense">
+                        ₹0
+                    </h2>
+                </div>
+
+                <i class="fa-solid fa-arrow-down"></i>
+
+            </div>
+
+
+
+
+            <div class="card balance">
+
+                <div>
+                    <h3>Balance</h3>
+                    <h2 id="balance">
+                        ₹0
+                    </h2>
+                </div>
+
+                <i class="fa-solid fa-wallet"></i>
+
+            </div>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- Add Transaction -->
+
+
+        <section class="transaction-box">
+
+
+            <h2>Add Transaction</h2>
+
+
+            <div class="form">
+
+
+                <input 
+                type="text"
+                id="title"
+                placeholder="Transaction Name">
+
+
+                <input 
+                type="number"
+                id="amount"
+                placeholder="Amount">
+
+
+                <select id="type">
+
+                    <option value="income">
+                        Income
+                    </option>
+
+                    <option value="expense">
+                        Expense
+                    </option>
+
+                </select>
+
+
+
+                <select id="category">
+
+                    <option>
+                        Food
+                    </option>
+
+                    <option>
+                        Transport
+                    </option>
+
+                    <option>
+                        Shopping
+                    </option>
+
+                    <option>
+                        Bills
+                    </option>
+
+                    <option>
+                        Education
+                    </option>
+
+                    <option>
+                        Medical
+                    </option>
+
+                    <option>
+                        Entertainment
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+
+
+
+                <input 
+                type="date"
+                id="date">
+
+
+                <button id="addBtn">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Add
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+
+
+
+        <!-- Search -->
+
+
+        <section class="search-area">
+
+
+            <input 
+            type="text"
+            id="search"
+            placeholder="Search transaction...">
+
+
+
+            <select id="filter">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option>
+                    Food
+                </option>
+
+                <option>
+                    Transport
+                </option>
+
+                <option>
+                    Shopping
+                </option>
+
+                <option>
+                    Bills
+                </option>
+
+                <option>
+                    Education
+                </option>
+
+                <option>
+                    Medical
+                </option>
+
+            </select>
+
+
+        </section>
+
+
+
+
+
+
+
+        <!-- Transaction Table -->
+
+
+        <section class="table-box">
+
+
+            <h2>
+                Transaction History
+            </h2>
+
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody id="transactionList">
+
+
+                </tbody>
+
+
+
+            </table>
+
+
+        </section>
+
+
+
+
+
+
+
+
+        <!-- Chart -->
+
+
+        <section class="chart-box">
+
+
+            <h2>
+                Expense Analysis
+            </h2>
+
+
+            <canvas id="expenseChart"></canvas>
+
+
+        </section>
+
+
+
+    </main>
+
+
+
+</div>
+
+<script>
+
+if(localStorage.getItem("loggedIn") !== "true"){
+
+    window.location="login.html";
+
+}
+
+</script>
+<script src="auth.js"></script>
+
+<script src="script.js"></script>
 </body>
 </html>
-```
